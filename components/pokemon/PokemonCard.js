@@ -7,7 +7,7 @@ export const PokemonCard = ({ pokemon }) => {
   const handleRedirect = (id) => router.push(`/pokemon/${id}`);
 
   return (
-    <Grid xs={6} sm={3} md={2} xl={1} onClick={() => handleRedirect(pokemon.id)}>
+    <Grid xs={6} sm={3} md={2} xl={2} onClick={() => handleRedirect(pokemon.id)}>
       <Card hoverable clickable>
         <Card.Body css={{ p: 1 }}>
           <Card.Image
