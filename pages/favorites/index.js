@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import { useEffect } from 'react/cjs/react.development';
-import { Layout } from '../../components/layouts'
+import React, { useState, useEffect } from 'react'
+import { FavoritePokemon } from '../../components/pokemon/FavoritePokemon';
 import { NoFavorites } from '../../components/ui/NoFavorites'
+import { Layout } from '../../components/layouts'
 import { pokemons } from '../../utils';
 
 export default function FavoritesPage() {
@@ -10,11 +10,13 @@ export default function FavoritesPage() {
   useEffect(() => {
     setFavoritePokemon(pokemons());
   }, []);
-  console.log('pokemos', favoritePokemon);
+
   return (
     <Layout title='Favoritos'>
-      {!favoritePokemon && (
+      {favoritePokemon.length === 0 ? (
         <NoFavorites />
+      ) : (
+        <FavoritePokemon pokemons={favoritePokemon} />
       )}
     </Layout>
   )

@@ -6,14 +6,14 @@ import { existInFavorites, toggleFavorites } from '../../utils';
 import Image from 'next/image';
 import confetti from 'canvas-confetti';
 
-const PokemonPage = ({ pokemon }) => {
+const PokemonByName = ({ pokemon }) => {
   const [isInFavorites, setIsInFavorites] = useState(existInFavorites(pokemon.id));
 
   const onToggleFavorites = () => {
     toggleFavorites(pokemon.id);
     setIsInFavorites(!isInFavorites);
 
-    if(isInFavorites) return;
+    if (isInFavorites) return;
 
     confetti({
       zIndex: 999,
@@ -93,19 +93,20 @@ const PokemonPage = ({ pokemon }) => {
 
 // You should use getStaticPaths if you’re statically pre-rendering pages that use dynamic routes
 export const getStaticPaths = async (ctx) => {
-  const pokemons151 = [...Array(151)].map((value, index) => `${index + 1}`);
+  const { data: { results } } = await pokeApi.get(`/pokemon?limit=151`);
+  const name = results.map(({ name }) => name);
 
   return {
-    paths: pokemons151.map((id) => ({
-      params: { id }
+    paths: name.map((el) => ({
+      params: {name: el}
     })),
     fallback: false,
   }
 };
 
 export const getStaticProps = async (ctx) => {
-  const { id } = ctx.params;
-  const { data } = await pokeApi.get(`/pokemon/${id}`);
+  const { name } = ctx.params;
+  const { data } = await pokeApi.get(`/pokemon/${name}`);
 
   return {
     props: {
@@ -115,4 +116,4 @@ export const getStaticProps = async (ctx) => {
 }
 
 
-export default PokemonPage;
+export default PokemonByName;

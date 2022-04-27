@@ -19,5 +19,5 @@ export const existInFavorites = (id) => {
 };
 
 export const pokemons = () => {
-  return JSON.parse(localStorage.getItem('favorites')) || '[]';
+  return JSON.parse(localStorage.getItem('favorites')) || [];
 };
