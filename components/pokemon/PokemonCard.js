@@ -4,10 +4,10 @@ import { useRouter } from 'next/router';
 export const PokemonCard = ({ pokemon }) => {
   const router = useRouter();
   
-  const handleRedirect = (id) => router.push(`/pokemon/${id}`);
+  const handleRedirect = (name) => router.push(`/name/${name}`);
 
   return (
-    <Grid xs={6} sm={3} md={2} xl={2} onClick={() => handleRedirect(pokemon.id)}>
+    <Grid xs={6} sm={3} md={2} xl={2} onClick={() => handleRedirect(pokemon.name)}>
       <Card hoverable clickable>
         <Card.Body css={{ p: 1 }}>
           <Card.Image
