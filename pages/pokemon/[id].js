@@ -126,7 +126,7 @@ export const getStaticProps = async (ctx) => {
     props: {
       pokemon: response,
     }, // will be passed to the page component as props
-    revalidate: 86400, //se regenera cada 24 hrs.
+    revalidate: 86400, //se regenera cada 24 horas.
   }
 }
 
