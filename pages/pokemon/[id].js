@@ -99,18 +99,34 @@ export const getStaticPaths = async (ctx) => {
     paths: pokemons151.map((id) => ({
       params: { id }
     })),
-    fallback: false,
+    fallback: 'blocking',
   }
 };
 
 export const getStaticProps = async (ctx) => {
   const { id } = ctx.params;
-  const { data } = await pokeApi.get(`/pokemon/${id}`);
+  let response;
+  try {
+    const { data } = await pokeApi.get(`/pokemon/${id}`);
+    response = data;
+  } catch (error) {
+    response = null;
+  }
+
+  if(!response) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      }
+    }
+  }
 
   return {
     props: {
-      pokemon: data,
+      pokemon: response,
     }, // will be passed to the page component as props
+    revalidate: 86400, //se regenera cada 24 hrs.
   }
 }
 
