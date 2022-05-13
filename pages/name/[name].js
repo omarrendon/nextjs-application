@@ -100,17 +100,31 @@ export const getStaticPaths = async (ctx) => {
     paths: name.map((el) => ({
       params: {name: el}
     })),
-    fallback: false,
+    fallback: 'blocking',
   }
 };
 
 export const getStaticProps = async (ctx) => {
   const { name } = ctx.params;
-  const { data } = await pokeApi.get(`/pokemon/${name}`);
+  let response;
+  try {
+    const { data } = await pokeApi.get(`/pokemon/${name}`);
+    response = data;
+  } catch (error) {
+    return null;
+  }
 
+  if(!response) {
+    return{
+      redirect: {
+        destination: '/',
+        permanent: false,
+      }
+    }
+  }
   return {
     props: {
-      pokemon: data,
+      pokemon: response,
     }, // will be passed to the page component as props
   }
 }
